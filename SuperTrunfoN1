@@ -1,0 +1,88 @@
+#include <stdio.h>
+
+int main() {
+
+
+    //  1. VARIÁVEIS E ATRIBUIÇÃO DIRETA - CARTA 01 (SÃO PAULO)
+
+    char estado[20] = "SP";
+    char cidade[50] = "São Paulo";
+    unsigned long int populacao = 12325000;
+    float area = 1521.11f; 
+    float pib = 699.28f; 
+    int ponto_turistico = 50; 
+    float densidade, pibpercapita, super_poder;
+    
+ 
+    //  2. CÁLCULOS CARTA 01 (Cálculos seguros com operador ternário)
+
+    densidade = (area > 0) ? (float) populacao / area : 0.0f;
+    pibpercapita = (populacao > 0) ? pib / (float)populacao : 0.0f;
+    // Cálculo do Super Poder (Proteção contra divisão por zero)
+    super_poder = (float)populacao + area + pib + ponto_turistico + pibpercapita + (densidade > 0 ? (1.0f / densidade) : 0.0f);
+    
+    //  3. VARIÁVEIS E ATRIBUIÇÃO DIRETA - CARTA 02 (RIO DE JANEIRO
+
+    char estado2[20] = "RJ";
+    char cidade2[50] = "Rio de Janeiro";
+    unsigned long int populacao2 = 6748000; 
+    float area2 = 1200.25f; 
+    float pib2 = 300.50f;
+    int ponto_turistico2 = 30;
+    float densidade2, pibpercapita2, super_poder2;
+
+    // CÁLCULOS CARTA 02
+    densidade2 = (area2 > 0) ? (float) populacao2 / area2 : 0.0f;
+    pibpercapita2 = (populacao2 > 0) ? pib2 / (float)populacao2 : 0.0f;
+    // Cálculo do Super Poder (Proteção contra divisão por zero)
+    super_poder2 = (float)populacao2 + area2 + pib2 + ponto_turistico2 + pibpercapita2 + (densidade2 > 0 ? (1.0f / densidade2) : 0.0f);
+
+    //  4. EXIBIÇÃO COMPLETA DOS ATRIBUTOS
+
+    printf("            RESUMO COMPLETO DAS CARTAS \n");
+ 
+    //  CARTA 1
+    printf("\n    CARTA 1: %s (%s)    \n", cidade, estado);
+    printf("População: %lu\n", populacao);
+    printf("Área: %.2f km²\n", area);
+    printf("PIB (Bilhôes): %.2f\n", pib);
+    printf("Pontos Turísticos: %d\n", ponto_turistico);
+    printf("Densidade Populacional: %.2f hab/km²\n", densidade);
+    printf("PIB Per Capita: %.8f (bilhões/hab)\n", pibpercapita);
+    printf("Super Poder: %.2f\n", super_poder);
+
+    // CARTA 2
+    printf("\n    CARTA 2: %s (%s)    \n", cidade2, estado2);
+    printf("População: %lu\n", populacao2);
+    printf("Área: %.2f km²\n", area2);
+    printf("PIB (Bilhôes): %.2f\n", pib2);
+    printf("Pontos Turísticos: %d\n", ponto_turistico2);
+    printf("Densidade Populacional: %.2f hab/km²\n", densidade2);
+    printf("PIB Per Capita: %.8f (bilhões/hab)\n", pibpercapita2);
+    printf("Super Poder: %.2f\n", super_poder2);
+
+    //  5. COMPARAÇÃO PELO NOVO ATRIBUTO: POPULAÇÂO
+   
+
+    printf("     \n COMPARANDO CARTAS DO SUPER TRUNFO \n");
+    printf("\n Regra: MAIOR POPULAÇÃO VENCE  \n");
+    printf("Carta 1 - %s (%s): %lu\n", cidade, estado, populacao);
+    printf("Carta 2 - %s (%s): %lu\n", cidade2, estado2, populacao2); 
+    printf("\nResultado: ");
+
+    // Lógica de Decisão (População: MAIOR VALOR VENCE)
+    
+    if (populacao == populacao2) {
+        // Regra de Empate
+        printf("🤝 Empate! As populações são iguais.\n");
+    } else {
+        // Regra Padrão: MAIOR VALOR VENCE
+        if (populacao > populacao2) {
+            printf("✅ Carta 1 (%s) venceu! (Maior População: %lu)\n", cidade, populacao);
+        } else {
+            printf("✅ Carta 2 (%s) venceu! (Maior População: %lu)\n", cidade2, populacao2);
+        }
+    }
+
+    return 0;
+}
