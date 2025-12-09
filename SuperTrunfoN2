@@ -1,0 +1,171 @@
+#include <stdio.h>
+
+// Função auxiliar para calcular a densidade (Melhora a leitura)
+float calcular_densidade(unsigned long int pop, float area) {
+    // Retorna o resultado da divisão ou 0.0f se a área for zero
+    return (area > 0) ? (float)pop / area : 0.0f;
+}
+
+int main() {
+    
+    // ===============================================
+    // 1. VARIÁVEIS E DADOS DAS CARTAS (BASE DO DESAFIO ANTERIOR)
+    // ===============================================
+    
+    // CARTA 01 (SÃO PAULO)
+    char estado[20] = "SP";
+    char cidade[50] = "São Paulo";
+    unsigned long int populacao = 12325000;
+    float area = 1521.11f; 
+    float pib = 699.28f; 
+    int ponto_turistico = 50; 
+    float densidade, pibpercapita, super_poder;
+    
+    // CÁLCULOS CARTA 01
+    densidade = calcular_densidade(populacao, area);
+    pibpercapita = (populacao > 0) ? pib / (float)populacao : 0.0f;
+    super_poder = (float)populacao + area + pib + ponto_turistico + pibpercapita + (densidade > 0 ? (1.0f / densidade) : 0.0f);
+    
+    // CARTA 02 (RIO DE JANEIRO)
+    char estado2[20] = "RJ";
+    char cidade2[50] = "Rio de Janeiro";
+    unsigned long int populacao2 = 6748000; 
+    float area2 = 1200.25f; 
+    float pib2 = 300.50f;
+    int ponto_turistico2 = 30;
+    float densidade2, pibpercapita2, super_poder2;
+
+    // CÁLCULOS CARTA 02
+    densidade2 = calcular_densidade(populacao2, area2);
+    pibpercapita2 = (populacao2 > 0) ? pib2 / (float)populacao2 : 0.0f;
+    super_poder2 = (float)populacao2 + area2 + pib2 + ponto_turistico2 + pibpercapita2 + (densidade2 > 0 ? (1.0f / densidade2) : 0.0f);
+
+    // ===============================================
+    // 2. EXIBIÇÃO COMPLETA DOS ATRIBUTOS (OPCIONAL, MANTIDO DO CÓDIGO ORIGINAL)
+    // ===============================================
+    
+    printf("            RESUMO COMPLETO DAS CARTAS \n");
+    printf("\n    CARTA 1: %s (%s)    \n", cidade, estado);
+    printf("População: %lu\n", populacao);
+    printf("Área: %.2f km²\n", area);
+    printf("PIB (Bilhôes): %.2f\n", pib);
+    printf("Pontos Turísticos: %d\n", ponto_turistico);
+    printf("Densidade Populacional: %.2f hab/km²\n", densidade);
+    printf("PIB Per Capita: %.8f (bilhões/hab)\n", pibpercapita);
+    printf("Super Poder: %.2f\n", super_poder);
+
+    printf("\n    CARTA 2: %s (%s)    \n", cidade2, estado2);
+    printf("População: %lu\n", populacao2);
+    printf("Área: %.2f km²\n", area2);
+    printf("PIB (Bilhôes): %.2f\n", pib2);
+    printf("Pontos Turísticos: %d\n", ponto_turistico2);
+    printf("Densidade Populacional: %.2f hab/km²\n", densidade2);
+    printf("PIB Per Capita: %.8f (bilhões/hab)\n", pibpercapita2);
+    printf("Super Poder: %.2f\n", super_poder2);
+
+    // ===============================================
+    // 3. MENU INTERATIVO (USANDO SWITCH)
+    // ===============================================
+    
+    int escolha_atributo;
+    double valor1 = 0.0;
+    double valor2 = 0.0;
+    const char *atributo_nome = "";
+    // 1 = Maior valor vence (Padrão). 0 = Menor valor vence (Densidade).
+    int vence_maior = 1; 
+
+    printf("\n\n============================================\n");
+    printf(" ⚔️  SUPER TRUNFO: ESCOLHA DE ATRIBUTO\n");
+    printf("============================================\n");
+    printf(" Escolha o atributo para comparar:\n");
+    printf(" 1 - População\n");
+    printf(" 2 - Área\n");
+    printf(" 3 - PIB\n");
+    printf(" 4 - Pontos Turísticos\n");
+    printf(" 5 - Densidade Demográfica\n");
+    printf("--------------------------------------------\n");
+    printf(" Digite o número da sua escolha: ");
+
+    if (scanf("%d", &escolha_atributo) != 1) {
+        printf("\n🚫 Entrada inválida! Digite um número.\n");
+        return 1;
+    }
+
+    switch (escolha_atributo) {
+        case 1:
+            atributo_nome = "População";
+            valor1 = (double)populacao;
+            valor2 = (double)populacao2;
+            vence_maior = 1; 
+            break;
+
+        case 2:
+            atributo_nome = "Área (km²)";
+            valor1 = (double)area;
+            valor2 = (double)area2;
+            vence_maior = 1;
+            break;
+
+        case 3:
+            atributo_nome = "PIB (Bilhôes)";
+            valor1 = (double)pib;
+            valor2 = (double)pib2;
+            vence_maior = 1;
+            break;
+
+        case 4:
+            atributo_nome = "Pontos Turísticos";
+            valor1 = (double)ponto_turistico;
+            valor2 = (double)ponto_turistico2;
+            vence_maior = 1;
+            break;
+
+        case 5:
+            atributo_nome = "Densidade Demográfica";
+            valor1 = (double)densidade;
+            valor2 = (double)densidade2;
+            vence_maior = 0; // 🛑 REGRA INVERTIDA: Menor valor vence
+            break;
+
+        default:
+            printf("\n🚫 Opção inválida! O jogo será encerrado.\n");
+            return 1;
+    }
+
+    printf("\n--- Comparando pelo atributo: %s ---\n", atributo_nome);
+    printf(" %s (Carta 1): %.2lf\n", cidade, valor1);
+    printf(" %s (Carta 2): %.2lf\n", cidade2, valor2);
+    printf("---------------------------------------\n");
+    printf(" RESULTADO: ");
+
+    // ===============================================
+    // 4. LÓGICA DE COMPARAÇÃO ANINHADA (IF-ELSE DENTRO DE IF-ELSE)
+    // ===============================================
+    
+    // Nível 1: Checagem de Empate
+    if (valor1 == valor2) {
+        printf("🤝 Empate! Os valores são iguais.\n");
+    } else {
+        // Nível 2: Decisão de Vitória baseada na Regra (vence_maior)
+        
+        if (vence_maior) {
+            // Regra Padrão: MAIOR VALOR VENCE
+            if (valor1 > valor2) {
+                printf("✅ Carta 1 (%s) VENCE! (%.2lf > %.2lf)\n", cidade, valor1, valor2);
+            } else {
+                printf("✅ Carta 2 (%s) VENCE! (%.2lf > %.2lf)\n", cidade2, valor2, valor1);
+            }
+        } else {
+            // Regra INVERTIDA (Densidade Demográfica): MENOR VALOR VENCE
+            if (valor1 < valor2) {
+                printf("✅ Carta 1 (%s) VENCE! (%.2lf < %.2lf)\n", cidade, valor1, valor2);
+            } else {
+                printf("✅ Carta 2 (%s) VENCE! (%.2lf < %.2lf)\n", cidade2, valor2, valor1);
+            }
+        }
+    }
+
+    printf("============================================\n");
+    
+    return 0;
+}
