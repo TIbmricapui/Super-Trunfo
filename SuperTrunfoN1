@@ -2,7 +2,6 @@
 
 int main() {
 
-
     //  1. VARIÁVEIS E ATRIBUIÇÃO DIRETA - CARTA 01 (SÃO PAULO)
 
     char estado[20] = "SP";
