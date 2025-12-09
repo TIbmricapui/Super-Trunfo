@@ -1,0 +1,236 @@
+#include <stdio.h>
+
+// Função auxiliar para calcular a densidade
+float calcular_densidade(unsigned long int pop, float area) {
+    if (area > 0) {
+        return (float)pop / area;
+    } else {
+        return 0.0f;
+    }
+}
+
+// Estrutura para mapear o número da opção ao nome do atributo
+const char* obter_nome_atributo(int opcao) {
+    switch (opcao) {
+        case 1: return "População";
+        case 2: return "Área";
+        case 3: return "PIB";
+        case 4: return "Pontos Turísticos";
+        case 5: return "Densidade Demográfica";
+        default: return "INVÁLIDO";
+    }
+}
+
+// Função para exibir o menu dinâmico
+void exibir_menu(int atributo_excluido) {
+    printf("Escolha um atributo para comparação (Regra Geral: MAIOR VENCE, exceto Densidade):\n");
+    if (atributo_excluido != 1) printf(" 1 - População\n");
+    if (atributo_excluido != 2) printf(" 2 - Área\n");
+    if (atributo_excluido != 3) printf(" 3 - PIB\n");
+    if (atributo_excluido != 4) printf(" 4 - Pontos Turísticos\n");
+    if (atributo_excluido != 5) printf(" 5 - Densidade Demográfica\n");
+}
+
+int main() {
+    
+    // ===============================================
+    // 1. DADOS DAS CARTAS (SÃO PAULO E RIO DE JANEIRO)
+    // ===============================================
+    
+    // CARTA 01 (SÃO PAULO)
+    char cidade[50] = "São Paulo";
+    unsigned long int populacao = 12325000;
+    float area = 1521.11f; 
+    float pib = 699.28f; 
+    int ponto_turistico = 50; 
+    float densidade = calcular_densidade(populacao, area);
+    
+    // CARTA 02 (RIO DE JANEIRO)
+    char cidade2[50] = "Rio de Janeiro";
+    unsigned long int populacao2 = 6748000; 
+    float area2 = 1200.25f; 
+    float pib2 = 300.50f;
+    int ponto_turistico2 = 30;
+    float densidade2 = calcular_densidade(populacao2, area2);
+
+
+    // ===============================================
+    // 2. ESCOLHA E ATRIBUIÇÃO DOS ATRIBUTOS
+    // ===============================================
+    
+    int escolha_atributo1, escolha_atributo2;
+    double val1_c1 = 0.0, val1_c2 = 0.0;
+    double val2_c1 = 0.0, val2_c2 = 0.0;
+
+    // --- ESCOLHA DO 1º ATRIBUTO ---
+    printf("\n\n============================================\n");
+    printf(" ⚔️  SUPER TRUNFO: ESCOLHA DO 1º ATRIBUTO\n");
+    printf("============================================\n");
+    
+    exibir_menu(0);
+    printf(" Digite o número da sua 1ª escolha: ");
+    
+    if (scanf("%d", &escolha_atributo1) != 1 || escolha_atributo1 < 1 || escolha_atributo1 > 5) {
+        printf("\n🚫 Opção inválida! Encerrando.\n");
+        return 1;
+    }
+
+    switch (escolha_atributo1) {
+        case 1: val1_c1 = (double)populacao; val1_c2 = (double)populacao2; break;
+        case 2: val1_c1 = (double)area; val1_c2 = (double)area2; break;
+        case 3: val1_c1 = (double)pib; val1_c2 = (double)pib2; break;
+        case 4: val1_c1 = (double)ponto_turistico; val1_c2 = (double)ponto_turistico2; break;
+        case 5: val1_c1 = (double)densidade; val1_c2 = (double)densidade2; break;
+    }
+
+    // --- ESCOLHA DO 2º ATRIBUTO (Dinâmico) ---
+    printf("\n\n============================================\n");
+    printf(" ⚔️  SUPER TRUNFO: ESCOLHA DO 2º ATRIBUTO\n");
+    printf("    (O atributo '%s' foi removido.)\n", obter_nome_atributo(escolha_atributo1));
+    printf("============================================\n");
+
+    exibir_menu(escolha_atributo1);
+    printf(" Digite o número da sua 2ª escolha: ");
+
+    if (scanf("%d", &escolha_atributo2) != 1 || escolha_atributo2 < 1 || escolha_atributo2 > 5) {
+        printf("\n🚫 Opção inválida! Encerrando.\n");
+        return 1;
+    }
+
+    if (escolha_atributo2 == escolha_atributo1) {
+        printf("\n🚫 Erro! Você não pode escolher o mesmo atributo duas vezes. Encerrando.\n");
+        return 1;
+    }
+
+    switch (escolha_atributo2) {
+        case 1: val2_c1 = (double)populacao; val2_c2 = (double)populacao2; break;
+        case 2: val2_c1 = (double)area; val2_c2 = (double)area2; break;
+        case 3: val2_c1 = (double)pib; val2_c2 = (double)pib2; break;
+        case 4: val2_c1 = (double)ponto_turistico; val2_c2 = (double)ponto_turistico2; break;
+        case 5: val2_c1 = (double)densidade; val2_c2 = (double)densidade2; break;
+    }
+
+    // ===============================================
+    // 3. LÓGICA DE VITÓRIA DUPLA (IF-ELSE PURO)
+    // ===============================================
+
+    int vitorias_c1 = 0;
+    int vitorias_c2 = 0;
+    
+    printf("\n\n============================================\n");
+    printf("         FIM DO JOGO: RESULTADO FINAL\n");
+    printf("      (Vence quem ganhar AMBOS atributos)\n");
+    printf("============================================\n");
+    
+    printf("ATRIBUTO 1: %s\n", obter_nome_atributo(escolha_atributo1));
+    printf("ATRIBUTO 2: %s\n", obter_nome_atributo(escolha_atributo2));
+    printf("--------------------------------------------\n");
+
+    // ----------------------------------------------------------------
+    // --- COMPARAÇÃO DO ATRIBUTO 1 ---
+    // ----------------------------------------------------------------
+    
+    int c1_vence_attr1 = 0;
+    int c2_vence_attr1 = 0;
+    
+    // Checa a vitória da CARTA 1 no ATRIBUTO 1
+    if (escolha_atributo1 == 5) { // Densidade (Menor Vence)
+        if (val1_c1 < val1_c2) {
+            c1_vence_attr1 = 1;
+        }
+    } else { // Outros atributos (Maior Vence)
+        if (val1_c1 > val1_c2) {
+            c1_vence_attr1 = 1;
+        }
+    }
+
+    // Checa a vitória da CARTA 2 no ATRIBUTO 1
+    if (escolha_atributo1 == 5) { // Densidade (Menor Vence)
+        if (val1_c2 < val1_c1) {
+            c2_vence_attr1 = 1;
+        }
+    } else { // Outros atributos (Maior Vence)
+        if (val1_c2 > val1_c1) {
+            c2_vence_attr1 = 1;
+        }
+    }
+
+    vitorias_c1 += c1_vence_attr1;
+    vitorias_c2 += c2_vence_attr1;
+    
+    // Exibição do resultado individual do Atributo 1
+    printf("1. %s: ", obter_nome_atributo(escolha_atributo1));
+    if (c1_vence_attr1 && !c2_vence_attr1) {
+        printf("%s\n", cidade);
+    } else if (c2_vence_attr1 && !c1_vence_attr1) {
+        printf("%s\n", cidade2);
+    } else {
+        printf("Empate\n");
+    }
+
+
+    // ----------------------------------------------------------------
+    // --- COMPARAÇÃO DO ATRIBUTO 2 ---
+    // ----------------------------------------------------------------
+    
+    int c1_vence_attr2 = 0;
+    int c2_vence_attr2 = 0;
+    
+    // Checa a vitória da CARTA 1 no ATRIBUTO 2
+    if (escolha_atributo2 == 5) { // Densidade (Menor Vence)
+        if (val2_c1 < val2_c2) {
+            c1_vence_attr2 = 1;
+        }
+    } else { // Outros atributos (Maior Vence)
+        if (val2_c1 > val2_c2) {
+            c1_vence_attr2 = 1;
+        }
+    }
+
+    // Checa a vitória da CARTA 2 no ATRIBUTO 2
+    if (escolha_atributo2 == 5) { // Densidade (Menor Vence)
+        if (val2_c2 < val2_c1) {
+            c2_vence_attr2 = 1;
+        }
+    } else { // Outros atributos (Maior Vence)
+        if (val2_c2 > val2_c1) {
+            c2_vence_attr2 = 1;
+        }
+    }
+
+    vitorias_c1 += c1_vence_attr2;
+    vitorias_c2 += c2_vence_attr2;
+
+    // Exibição do resultado individual do Atributo 2
+    printf("2. %s: ", obter_nome_atributo(escolha_atributo2));
+    if (c1_vence_attr2 && !c2_vence_attr2) {
+        printf("%s\n", cidade);
+    } else if (c2_vence_attr2 && !c1_vence_attr2) {
+        printf("%s\n", cidade2);
+    } else {
+        printf("Empate\n");
+    }
+
+    printf("--------------------------------------------\n");
+    printf("Contagem de Vitórias: %s: %d | %s: %d\n", cidade, vitorias_c1, cidade2, vitorias_c2);
+    printf("--------------------------------------------\n");
+
+
+    // ===============================================
+    // 4. RESULTADO FINAL (VITÓRIA DUPLA)
+    // ===============================================
+
+    // A CARTA SÓ VENCE SE TIVER VENCIDO OS DOIS ATRIBUTOS (vitorias == 2)
+    if (vitorias_c1 == 2 && vitorias_c2 == 0) {
+        printf("🎉 VENCEDOR: CARTA 1 - %s! (Ganhou ambos atributos!)\n", cidade);
+    } else if (vitorias_c2 == 2 && vitorias_c1 == 0) {
+        printf("🎉 VENCEDOR: CARTA 2 - %s! (Ganhou ambos atributos!)\n", cidade2);
+    } else {
+        // Empate ocorre se o placar for 1x1, 1x0, 0x1 ou 0x0
+        printf("🤝 RESULTADO: EMPATE! Nenhuma carta ganhou os dois atributos.\n");
+    }
+
+    printf("============================================\n");
+    
+    return 0;
+}
